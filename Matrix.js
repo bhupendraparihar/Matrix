@@ -15,23 +15,39 @@ function Matrix(noOfRows,noOfCols){
 		return matrix;
 	}
     
-    function setMatrix(fillerMatrix){
-      matrix = fillerMatrix;
-    }
-    
-    this.fill = function(rowArray){
-      if(Array.isArray(rowArray)){
-      if(rowArray.length === this.getM()
-         && rowArray.filter(function(x){ return x.length === this.getN();},this).length === this.getM()){
-          this.setMatrix(rowArray);
-      }else{
-        throw new Error("Argument doesn't have sufficient values");
-      }
-    }else{
-      throw new Error("Argument to fill method is not an array");
-    }
+  function setMatrix(fillerMatrix){
+    matrix = fillerMatrix;
   }
     
+  this.fill = function(rowArray){
+		if(Array.isArray(rowArray)){
+    	if(rowArray.length === this.getM()
+     	&& rowArray.filter(function(x){ return x.length === this.getN();},this).length === this.getM()){
+    		setMatrix(rowArray);
+  		}else{
+    		throw new Error("Argument doesn't have sufficient values");
+  		}
+  	}else{
+  		throw new Error("Argument to fill method is not an array");
+  	}
+	}
+}
+
+Matrix.prototype.getValue = function(rowIndex,columnIndex){
+		// Matrix starts with index 1,1
+    return this.getMatrix()[rowIndex-1][columnIndex-1];
+}
+
+Matrix.prototype.getRow = function(rowNumber){
+  return this.getMatrix()[rowNumber-1];
+}
+
+Matrix.prototype.getColumn = function(columnNumber){
+  var column = [];
+  this.getMatrix().forEach(function(elm){
+    column.push(elm[columnNumber-1]);
+  })
+  return column;
 }
 
 Matrix.prototype.toString = function(){
