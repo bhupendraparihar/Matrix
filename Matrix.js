@@ -21,15 +21,14 @@ function Matrix(noOfRows,noOfCols){
     
     this.fill = function(rowArray){
       if(Array.isArray(rowArray)){
-      if(rowArray.length === this.getM()){
-        if(rowArray.filter(function(x){ return x.length === this.getN();},this).length === this.getM()){
+      if(rowArray.length === this.getM()
+         && rowArray.filter(function(x){ return x.length === this.getN();},this).length === this.getM()){
           this.setMatrix(rowArray);
-        }
       }else{
-        throw "Argument doesn't have sufficient values";
+        throw new Error("Argument doesn't have sufficient values");
       }
     }else{
-      throw "Argument to fill method is not an array";
+      throw new Error("Argument to fill method is not an array");
     }
   }
     
