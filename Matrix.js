@@ -1,19 +1,53 @@
-function Matrix(){}
+function Matrix(noOfRows,noOfCols){
+	var m = noOfRows;
+	var n = noOfCols;
+	var matrix = Array(m).fill().map(()=>Array(n).fill());
+	
+	this.getM = function(){
+		return m;
+	}
 
-Matrix.prototype.createMatrix = function(m,n){
-	this.m = m; // m is row
-	this.n = n; // n is column
-	return Array(m).fill().map(()=>Array(n).fill());
+	this.getN = function(){
+		return n;
+	}
+
+	this.getMatrix = function(){
+		return matrix;
+	}
+    
+    function setMatrix(fillerMatrix){
+      matrix = fillerMatrix;
+    }
+    
+    this.fill = function(rowArray){
+      if(Array.isArray(rowArray)){
+      if(rowArray.length === this.getM()){
+        if(rowArray.filter(function(x){ return x.length === this.getN();},this).length === this.getM()){
+          this.setMatrix(rowArray);
+        }
+      }else{
+        throw "Argument doesn't have sufficient values";
+      }
+    }else{
+      throw "Argument to fill method is not an array";
+    }
+  }
+    
+}
+
+Matrix.prototype.toString = function(){
+	
 }
 
 Matrix.prototype.isSquareMatrix = function(){
-	return this.m === this.n;
+	return this.getM() === this.getN();
 }
 
 Matrix.prototype.isRowMatrix = function(){
-	return this.m === 1;
+	return this.getM() === 1;
 }
 
 Matrix.prototype.isColumnMatrix = function(){
-	return this.n === 1;
+	return this.getN() === 1;
 }
+
