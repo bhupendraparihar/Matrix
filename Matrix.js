@@ -1,3 +1,5 @@
+(function(){  //Self executing function to avoid poluting the global scope
+
 function Matrix(noOfRows,noOfCols){
 	var m = noOfRows;
 	var n = noOfCols;
@@ -66,3 +68,108 @@ Matrix.prototype.isColumnMatrix = function(){
 	return this.getN() === 1;
 }
 
+Matrix.prototype.isDiagonalMatrix = function(){
+	var m,n,i,j;
+	m = this.getM();
+	n = this.getN();
+
+	if(!this.isSquareMatrix()) return false;
+
+	for(i = 1; i <= m; i++){
+		for(j = 1; j <= n; j++){
+			if((i === j && this.get(i,j) === 0) || (i !== j && this.get(i,j) !== 0)){
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+Matrix.prototype.isUpperTriangularMatrix = function(){
+	var m,n,i,j;
+	m = this.getM();
+	n = this.getN();
+	
+	if(!this.isSquareMatrix()) return false;
+
+	for(i = 1; i <= m; i++){
+		for(j = 1; j <= n; j++){
+			if(i > j && this.get(i,j) !== 0){
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+Matrix.prototype.isLowerTriangularMatrix = function(){
+	var m,n,i,j;
+	m = this.getM();
+	n = this.getN();
+	
+	if(!this.isSquareMatrix()) return false;
+
+	for(i = 1; i <= m; i++){
+		for(j = 1; j <= n; j++){
+			if(i < j && this.get(i,j) !== 0){
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+//Diagonal are one, also known as Unit Matrix
+Matrix.prototype.isIdentityMatrix = function(){
+	var m,n,i,j;
+	m = this.getM();
+	n = this.getN();
+	
+	if(!this.isSquareMatrix()) return false;
+
+	for(i = 1; i <= m; i++){
+		for(j = 1; j <= n; j++){
+			if((i === j && this.get(i,j) !== 1) || (i !== j && this.get(i,j) !== 0)){
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+//Null Matrix who's all values are zero, it is also known as zero matrix
+Matrix.prototype.isNullMatrix = function(){
+	var m,n,i,j;
+	m = this.getM();
+	n = this.getN();
+
+	for(i = 1; i <= m; i++){
+		for(j = 1; j <= n; j++){
+			if(this.get(i,j) !== 0){
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+
+
+Matrix.prototype.isEqual = function(m2){
+	var m,n,i,j;
+	m = this.getM();
+	n = this.getN();
+	if(m === m2.getM() && n === m2.getN()){
+		for(i = 1; i <= m; i++){
+			for(j = 1; j <= n; j++){
+				if(this.get(i,j) !== m2.get(i,j)) return false;
+			}
+		}
+		return true;
+	}
+	return false;
+}
+
+window.Matrix = Matrix;
+
+})();
