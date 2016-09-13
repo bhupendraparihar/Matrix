@@ -53,7 +53,25 @@ Matrix.prototype.getColumn = function(columnNumber){
 }
 
 Matrix.prototype.toString = function(){
-	
+	var mat = this.getMatrix();
+	mat.forEach(function(rowMatrix){
+		console.log(rowMatrix.reduce(function(i,p){
+			return i + "  " + p;
+		}));
+	});
+}
+
+Matrix.transpose = function(mat){
+	var m = mat.getN();
+	var n = mat.getM();
+	var transMat = new Matrix(m,n);
+	var fillerForTransMat = [];
+	for(var i  = 1; i<=n+1; i++){
+		fillerForTransMat.push(mat.getColumn(i));
+	}
+	console.log(fillerForTransMat);
+	transMat.fill(fillerForTransMat);
+	return transMat;
 }
 
 Matrix.prototype.isSquareMatrix = function(){
@@ -153,8 +171,6 @@ Matrix.prototype.isNullMatrix = function(){
 	return true;
 }
 
-
-
 Matrix.prototype.isEqual = function(m2){
 	var m,n,i,j;
 	m = this.getM();
@@ -168,6 +184,41 @@ Matrix.prototype.isEqual = function(m2){
 		return true;
 	}
 	return false;
+}
+
+//Adding matrix
+Matrix.add = function(m1,m2){
+	function sum(a,b){
+		return a+b;
+	}
+	return toOperateOnMatrixValues(m1,m2,sum);
+}
+
+Matrix.sub = function(m1,m2){
+	function sub(a,b){
+		return a-b;
+	}
+	return toOperateOnMatrixValues(m1,m2,sub);	
+}
+
+function toOperateOnMatrixValues(m1,m2,operateFunction){
+	if(m1.getM() !== m2.getM() || m1.getN() !== m2.getN()){
+		throw ('Matrices are not of same order');
+	}
+	var m = m1.getM();
+	var n = m1.getN();
+	var resultMatrix = new Matrix(m,n);
+	var fillerValues = [];
+	var row;
+	for(var i = 1; i<= m; i++){
+		row  = [];
+		for(var j = 1; j <= n; j++){
+			row.push(operateFunction(m1.getValue(i,j),m2.getValue(i,j)));
+		}
+		fillerValues.push(row);
+	}
+	resultMatrix.fill(fillerValues);
+	return resultMatrix;
 }
 
 window.Matrix = Matrix;
